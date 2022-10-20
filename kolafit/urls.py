@@ -19,7 +19,7 @@ from kola import views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'tasks',views.CustomerView, 'task')
+router.register(r'signUp',views.CustomerView, 'signUp')
 
 
 
