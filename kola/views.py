@@ -1,15 +1,18 @@
 from django.shortcuts import render
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+# from django.views.decorators.csrf import csrf_exempt
+# from django.http import JsonResponse
 from rest_framework import viewsets 
 from .serializers import CustomerSerializer 
 from .models import Customer 
-import json
+# import json
 
 class CustomerView(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
 
+# class CustomerLoginView(viewsets.ModelViewSet):
+#     serializer_class = CustomerLoginSerializer
+#     queryset = Customer.objects.all()
 
 # @csrf_exempt
 # def signUp(request):
