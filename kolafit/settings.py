@@ -28,9 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3006',
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3007',
+# )
 
 # Application definition
 
@@ -59,6 +59,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'kolafit.urls'
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {
@@ -140,4 +142,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+   'DEFAULT_AUTHENTICATION_CLASSES': [
+       'rest_framework.authentication.TokenAuthentication',
+   ],
+   'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+   ],
+}
 django_heroku.settings(locals())

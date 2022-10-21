@@ -1,25 +1,95 @@
 from django.shortcuts import render
-# from django.views.decorators.csrf import csrf_exempt
-# from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets 
-from .serializers import CustomerSerializer 
+from .serializers import CustomerSerializer, CustomerRegisterSerializer
 from .models import Customer 
-# import json
+from rest_framework.parsers import JSONParser
+from django.http.response import JsonResponse
+from rest_framework.response import Response
+from rest_framework import generics, permissions
+from django.contrib.auth import login,authenticate
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+from django.contrib.auth.models import User
+# from knox.models import AuthToken
+# from knox.views import LoginView as KnoxLoginView
+
+
+
+
+
+
+from rest_framework.authtoken.models import Token
 
 class CustomerView(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
 
 # class CustomerLoginView(viewsets.ModelViewSet):
-#     serializer_class = CustomerLoginSerializer
-#     queryset = Customer.objects.all()
+    # serializer_class = CustomerLoginSerializer
+    # queryset = Customer.objects.all()
 
-# @csrf_exempt
-# def signUp(request):
-#     if request.method == "POST":
-#         customer_data = json.parse(request)
-#         customer_seralizer = CustomerSerializer(data=customer_data)
-#         if customer_seralizer.is_valid():
-#             customer_seralizer.save()
-#             return JsonResponse("Added customer")
-#         return JsonResponse("Failed to add customer")        
+@csrf_exempt
+def signUpApi(request,id=0):
+    if request.method=='GET':
+        customers = Customer.objects.all()
+        customer_serializer = CustomerSerializer(customers,many=True)
+        return JsonResponse(customer_serializer.data,safe=False)
+
+    elif request.method=='POST':
+        customer_data = JSONParser().parse(request)
+        customer_serializer = CustomerSerializer(data=customer_data)
+        if customer_serializer.is_valid():
+            customer_serializer.save()
+            return JsonResponse("Added Successfully",safe=False)
+        return JsonResponse("Failed to add",safe=False)
+    elif request.method=='PUT':
+        customer_data=JSONParser().parse(request)
+        customer = Customer.objects.get(full_name = customer_data['full_name'])
+        customer_serializer=CustomerSerializer(customer,data=customer_data)
+        if customer_serializer.is_valid():
+            customer_serializer.save()
+            return JsonResponse("Updated Successfully",safe=False)
+        return JsonResponse("Failed to update",safe=False)
+    
+    elif request.method=='DELETE':
+        customer=Customer.objects.get(full_name='full_name')
+        customer.delete()
+        return JsonResponse("Deleted successfully",safe=False)
+
+
+class CustomerRegisterAPI(generics.GenericAPIView):
+    serializer_class = CustomerRegisterSerializer
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        customer = serializer.save()
+        User.objects.create_user(full_name=customer.full_name , password=customer.password)
+        return Response({
+        "customer": CustomerSerializer(customer, context=self.get_serializer_context()).data,
+        })
+
+# Register API
+class RegisterAPI(generics.GenericAPIView):
+    serializer_class = CustomerRegisterSerializer
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        customer = serializer.save()
+        User.objects.create_user(full_name=customer.full_name , password=customer.password)
+        return Response({
+        "customer": CustomerSerializer(customer, context=self.get_serializer_context()).data,
+        })
+class LoginAPI(ObtainAuthToken):
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request, format=None):
+        full_name=request.data['full_name']
+        password=request.data['password']
+        user=authenticate(request,full_name=full_name, password=password)
+        print(user)
+        token=Token.objects.create(user=user)
+        return Response({
+            'body': 'login successful',
+            "token": token.key
+        })
