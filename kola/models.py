@@ -2,15 +2,15 @@ from django.db import models
 
 # Create your models here.
 class Customer(models.Model):
-    first_name=models.CharField(max_length=15,null=True)
-    last_name=models.Charfield(max_length=15, null=True)
-    GENDER_CHOICES=(
-        ('M','Male'),
-        ('F','Female'),
-        ('O','Other'),
-    )
-    gender=models.CharField(max_length=10,choices=GENDER_CHOICES,null=True)
-    email = models.EmailField(unique=True,null = True)
+    full_name=models.CharField(max_length=15,null=True)
+    # last_name=models.CharField(max_length=15, null=True)
+    # GENDER_CHOICES=(
+    #     ('M','Male'),
+    #     ('F','Female'),
+    #     ('O','Other'),
+    # )
+    gender=models.CharField(max_length=10,null=True)
+    email = models.EmailField(null = True)
     password=models.CharField(max_length = 15,null=True)
 
     def __str__(self):
@@ -26,8 +26,7 @@ class Identification(models.Model):
 
 class Bill(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
-    rent = models.IntegerField()
-    rent_date=models.DateField()
+    rent_amount = models.DecimalField()
     BILLS_CHOICES=(
         ('E','Electricity'),
         ('W','Water'),
