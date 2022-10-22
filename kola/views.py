@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets 
-from .serializers import CustomerSerializer, CustomerRegisterSerializer
+from .serializers import CustomerSerializer, CustomerRegisterSerializer,CustomerLoginSerializer
 from .models import Customer 
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
@@ -12,8 +12,8 @@ from django.contrib.auth import login,authenticate
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth.models import User
-# from knox.models import AuthToken
-# from knox.views import LoginView as KnoxLoginView
+from knox.models import AuthToken
+from knox.views import LoginView as KnoxLoginView
 
 
 
@@ -26,9 +26,9 @@ class CustomerView(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     queryset = Customer.objects.all()
 
-# class CustomerLoginView(viewsets.ModelViewSet):
-    # serializer_class = CustomerLoginSerializer
-    # queryset = Customer.objects.all()
+class CustomerLoginView(viewsets.ModelViewSet):
+    serializer_class = CustomerLoginSerializer
+    queryset = Customer.objects.all()
 
 @csrf_exempt
 def signUpApi(request,id=0):
@@ -47,7 +47,7 @@ def signUpApi(request,id=0):
         return JsonResponse("Failed to add",safe=False)
     elif request.method=='PUT':
         customer_data=JSONParser().parse(request)
-        customer = Customer.objects.get(full_name = customer_data['full_name'])
+        customer = Customer.objects.get(first_name = customer_data['first_name'])
         customer_serializer=CustomerSerializer(customer,data=customer_data)
         if customer_serializer.is_valid():
             customer_serializer.save()
@@ -55,7 +55,7 @@ def signUpApi(request,id=0):
         return JsonResponse("Failed to update",safe=False)
     
     elif request.method=='DELETE':
-        customer=Customer.objects.get(full_name='full_name')
+        customer=Customer.objects.get(first_name='first_name')
         customer.delete()
         return JsonResponse("Deleted successfully",safe=False)
 
@@ -66,7 +66,7 @@ class CustomerRegisterAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         customer = serializer.save()
-        User.objects.create_user(full_name=customer.full_name , password=customer.password)
+        User.objects.create_user(first_name=customer.first_name , password=customer.password)
         return Response({
         "customer": CustomerSerializer(customer, context=self.get_serializer_context()).data,
         })
@@ -78,16 +78,16 @@ class RegisterAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         customer = serializer.save()
-        User.objects.create_user(full_name=customer.full_name , password=customer.password)
+        User.objects.create_user(email=customer.email , password=customer.password)
         return Response({
         "customer": CustomerSerializer(customer, context=self.get_serializer_context()).data,
         })
 class LoginAPI(ObtainAuthToken):
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.AllowAny)
     def post(self, request, format=None):
-        full_name=request.data['full_name']
+        email=request.data['email']
         password=request.data['password']
-        user=authenticate(request,full_name=full_name, password=password)
+        user=authenticate(request,email=email, password=password)
         print(user)
         token=Token.objects.create(user=user)
         return Response({

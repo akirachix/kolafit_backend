@@ -5,7 +5,7 @@ from . import models
 from .models import Customer
 class CustomerAdmin(admin.ModelAdmin):
  
-    list_display = ("full_name", "gender", "email")
+    list_display = ("first_name" ,"last_name","gender", "email")
 
 admin.site.register(Customer,CustomerAdmin)
 

@@ -2,20 +2,19 @@ from django.db import models
 
 # Create your models here.
 class Customer(models.Model):
-    full_name=models.CharField(max_length=15,null=True)
-    # last_name=models.CharField(max_length=15, null=True)
-    # GENDER_CHOICES=(
-    #     ('M','Male'),
-    #     ('F','Female'),
-    #     ('O','Other'),
-    # )
-    gender=models.CharField(max_length=10,null=True)
+    first_name=models.CharField(max_length=15,null=True)
+    last_name=models.CharField(max_length=15, null=True)
+    GENDER_CHOICES=(
+        ('M','Male'),
+        ('F','Female'),
+        ('O','Other'),
+    )
+    gender=models.CharField(max_length=10,choices=GENDER_CHOICES,null=True)
     email = models.EmailField(null = True)
     password=models.CharField(max_length = 15,null=True)
-
+    
     def __str__(self):
-         return self.full_name
-
+        return '{} {}'.format(self.first_name, self.last_name)
 
 
 class Identification(models.Model):
@@ -36,6 +35,7 @@ class Bill(models.Model):
     water_picture=models.ImageField(default='default.jpg', upload_to='water_pics') 
    
     bills_amount=models.DecimalField(max_digits=10, decimal_places=2)
+
     
 class Loan(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
