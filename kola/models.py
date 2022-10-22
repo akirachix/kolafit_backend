@@ -26,7 +26,7 @@ class Identification(models.Model):
 
 class Bill(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
-    rent_amount = models.DecimalField()
+    rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
     BILLS_CHOICES=(
         ('E','Electricity'),
         ('W','Water'),
@@ -35,9 +35,9 @@ class Bill(models.Model):
     electricity_picture=models.ImageField(default='default.jpg', upload_to='electricity_pics') 
     water_picture=models.ImageField(default='default.jpg', upload_to='water_pics') 
    
-    bills_amount=models.IntegerField()
+    bills_amount=models.DecimalField(max_digits=10, decimal_places=2)
     
 class Loan(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
-    amount=models.IntegerField()    
+    amount=models.DecimalField(max_digits=10,decimal_places=2)    
 
