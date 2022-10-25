@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from .models import Customer
+from .models import Customer, Bill
 from django.contrib.auth.models import User
  
 class CustomerSerializer(serializers.ModelSerializer):
@@ -22,4 +22,9 @@ def create(self, validated_data):
 class CustomerLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ("email", "password")        
+        fields = ("email", "password")   
+
+class BillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bill
+        fields = (Customer, "rent_amount", "bills", "electricity_picture", "water_picture", "bills_amount")             

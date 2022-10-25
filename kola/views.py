@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets 
-from .serializers import CustomerSerializer, CustomerRegisterSerializer,CustomerLoginSerializer
-from .models import Customer 
+from .serializers import CustomerSerializer, CustomerRegisterSerializer,CustomerLoginSerializer, BillSerializer
+from .models import Customer, Bill
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from rest_framework.response import Response
@@ -54,16 +54,16 @@ def signUpApi(request,id=0):
         return JsonResponse("Deleted successfully",safe=False)
 
 
-class CustomerRegisterAPI(generics.GenericAPIView):
-    serializer_class = CustomerRegisterSerializer
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        customer = serializer.save()
-        User.objects.create_user(first_name=customer.first_name , password=customer.password)
-        return Response({
-        "customer": CustomerSerializer(customer, context=self.get_serializer_context()).data,
-        })
+# class CustomerRegisterAPI(generics.GenericAPIView):
+#     serializer_class = CustomerRegisterSerializer
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         customer = serializer.save()
+#         User.objects.create_user(first_name=customer.first_name , password=customer.password)
+#         return Response({
+#         "customer": CustomerSerializer(customer, context=self.get_serializer_context()).data,
+#         })
 
 # Register API
 class RegisterAPI(generics.GenericAPIView):
@@ -101,3 +101,7 @@ class LoginAPI(KnoxLoginView):
         user = serializer.validated_data['user']
         login(request, user=user)
         return user(LoginAPI, self).post(request, format=None)
+
+class BillView(viewsets.ModelViewSet):
+    queryset = Bill.objects.all()
+    serializer_class = BillSerializer        
