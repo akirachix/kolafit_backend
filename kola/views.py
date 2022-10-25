@@ -41,7 +41,7 @@ def signUpApi(request,id=0):
         return JsonResponse("Failed to add",safe=False)
     elif request.method=='PUT':
         customer_data=JSONParser().parse(request)
-        customer = Customer.objects.get(first_name = customer_data['first_name'])
+        customer = Customer.objects.get(first_name = customer_data.first_name)
         customer_serializer=CustomerSerializer(customer,data=customer_data)
         if customer_serializer.is_valid():
             customer_serializer.save()
@@ -49,7 +49,7 @@ def signUpApi(request,id=0):
         return JsonResponse("Failed to update",safe=False)
     
     elif request.method=='DELETE':
-        customer=Customer.objects.get(first_name = customer_data['first_name'])
+        customer=Customer.objects.get(first_name = customer.first_name)
         customer.delete()
         return JsonResponse("Deleted successfully",safe=False)
 
@@ -80,13 +80,14 @@ class RegisterAPI(generics.GenericAPIView):
 #     permission_classes = (permissions.AllowAny)
 #     def post(self, request, format=None):
 #         email=request.data['email']
-#         password=request.data['password']
-#         user=authenticate(request,email=email, password=password)
-#         print(user)
-#         token=Token.objects.create(user=user)
-#         return Response({
-#             'body': 'login successful',
-#             "token": token.key
+        # password=request.data['password']
+        # user=authenticate(request,email=email, password=password)
+        # print(user)
+        # token=Token.objects.create(user=user)
+        # return Response({
+        #     'body': 'login successful',
+        #     "token": token.key
+        # ertyujkil;''
 #         })
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
