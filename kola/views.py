@@ -80,13 +80,14 @@ class RegisterAPI(generics.GenericAPIView):
 #     permission_classes = (permissions.AllowAny)
 #     def post(self, request, format=None):
 #         email=request.data['email']
-#         password=request.data['password']
-#         user=authenticate(request,email=email, password=password)
-#         print(user)
-#         token=Token.objects.create(user=user)
-#         return Response({
-#             'body': 'login successful',
-#             "token": token.key
+        # password=request.data['password']
+        # user=authenticate(request,email=email, password=password)
+        # print(user)
+        # token=Token.objects.create(user=user)
+        # return Response({
+        #     'body': 'login successful',
+        #     "token": token.key
+        # ertyujkil;''
 #         })
 class LoginAPI(KnoxLoginView):
     permission_classes = (permissions.AllowAny,)
