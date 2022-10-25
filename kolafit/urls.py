@@ -23,7 +23,7 @@ router = routers.DefaultRouter()
 router.register(r'signup',views.CustomerView, 'signup')
 router.register(r'login',views.CustomerLoginView, 'login')
 router.register(r"bills",views.BillView, 'bills')
-router.register(r"loans",views.BillView, 'loans')
+router.register(r"loans",views.LoanView, 'loans')
 
 
 
