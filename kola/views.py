@@ -49,7 +49,7 @@ def signUpApi(request,id=0):
         return JsonResponse("Failed to update",safe=False)
     
     elif request.method=='DELETE':
-        customer=Customer.objects.get(first_name='first_name')
+        customer=Customer.objects.get(first_name = customer_data['first_name'])
         customer.delete()
         return JsonResponse("Deleted successfully",safe=False)
 
