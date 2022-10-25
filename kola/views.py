@@ -14,12 +14,6 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from django.contrib.auth.models import User
 from knox.models import AuthToken
 from knox.views import LoginView as KnoxLoginView
-
-
-
-
-
-
 from rest_framework.authtoken.models import Token
 
 class CustomerView(viewsets.ModelViewSet):
@@ -82,15 +76,27 @@ class RegisterAPI(generics.GenericAPIView):
         return Response({
         "customer": CustomerSerializer(customer, context=self.get_serializer_context()).data,
         })
-class LoginAPI(ObtainAuthToken):
-    permission_classes = (permissions.AllowAny)
+# class LoginAPI(ObtainAuthToken):
+#     permission_classes = (permissions.AllowAny)
+#     def post(self, request, format=None):
+#         email=request.data['email']
+#         password=request.data['password']
+#         user=authenticate(request,email=email, password=password)
+#         print(user)
+#         token=Token.objects.create(user=user)
+#         return Response({
+#             'body': 'login successful',
+#             "token": token.key
+#         })
+class LoginAPI(KnoxLoginView):
+    permission_classes = (permissions.AllowAny,)
+
     def post(self, request, format=None):
-        email=request.data['email']
+        serializer = AuthTokenSerializer(data=request.data)
+        username=request.data['email']
         password=request.data['password']
-        user=authenticate(request,email=email, password=password)
-        print(user)
-        token=Token.objects.create(user=user)
-        return Response({
-            'body': 'login successful',
-            "token": token.key
-        })
+        user=authenticate(request,email=username, password=password)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        login(request, user=user)
+        return user(LoginAPI, self).post(request, format=None)

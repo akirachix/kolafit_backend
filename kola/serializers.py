@@ -16,7 +16,7 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}        
         
 def create(self, validated_data):
-        user = Customer.objects.create(validated_data['email'], validated_data['password'],)
+        user = User.objects.create(validated_data['first_name'],validated_data['last_name'],validated_data['email'], validated_data['password'])
         return user
 
 class CustomerLoginSerializer(serializers.ModelSerializer):

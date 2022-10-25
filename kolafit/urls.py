@@ -29,7 +29,7 @@ router.register(r'login',views.CustomerLoginView, 'login')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('login/', views.LoginAPI.as_view(), name='login'),
+    path('', include('kola.urls')),
 
 
 ]
