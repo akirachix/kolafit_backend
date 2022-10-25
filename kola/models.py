@@ -1,9 +1,10 @@
 from django.db import models
 
 # Create your models here.
+
 class Customer(models.Model):
-    first_name=models.CharField(max_length=15,null=True)
-    last_name=models.CharField(max_length=15, null=True)
+    first_name=models.CharField(max_length=16,null=True)
+    last_name=models.CharField(max_length=16, null=True)
     GENDER_CHOICES=(
         ('M','Male'),
         ('F','Female'),
