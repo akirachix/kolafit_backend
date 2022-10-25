@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets 
-from .serializers import CustomerSerializer, CustomerRegisterSerializer,CustomerLoginSerializer, BillSerializer
-from .models import Customer, Bill
+from .serializers import CustomerSerializer, CustomerRegisterSerializer,CustomerLoginSerializer, BillSerializer, LoanSerializer
+from .models import Customer, Bill, Loan
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from rest_framework.response import Response
@@ -105,3 +105,7 @@ class LoginAPI(KnoxLoginView):
 class BillView(viewsets.ModelViewSet):
     queryset = Bill.objects.all()
     serializer_class = BillSerializer        
+
+class LoanView(viewsets.ModelViewSet):
+    queryset = Loan.objects.all()
+    serializer_class = LoanSerializer     
