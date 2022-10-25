@@ -27,4 +27,4 @@ class CustomerLoginSerializer(serializers.ModelSerializer):
 class BillSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bill
-        fields = (Customer, "rent_amount", "bills", "electricity_picture", "water_picture", "bills_amount")             
+        fields = ("customer", "rent_amount", "bills", "electricity_picture", "water_picture", "bills_amount")             
