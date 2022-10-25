@@ -41,7 +41,7 @@ def signUpApi(request,id=0):
         return JsonResponse("Failed to add",safe=False)
     elif request.method=='PUT':
         customer_data=JSONParser().parse(request)
-        customer = Customer.objects.get(first_name = customer_data['first_name'])
+        customer = Customer.objects.get(first_name = customer_data.first_name)
         customer_serializer=CustomerSerializer(customer,data=customer_data)
         if customer_serializer.is_valid():
             customer_serializer.save()
