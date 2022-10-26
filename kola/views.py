@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets 
-from .serializers import CustomerSerializer, CustomerRegisterSerializer,CustomerLoginSerializer, BillSerializer, LoanSerializer
-from .models import Customer, Bill, Loan
+from .serializers import CustomerSerializer, CustomerRegisterSerializer,CustomerLoginSerializer, BillSerializer, LoanSerializer,IdentificationSerializer
+from .models import Customer, Bill, Loan, Identification
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from rest_framework.response import Response
@@ -109,3 +109,20 @@ class BillView(viewsets.ModelViewSet):
 class LoanView(viewsets.ModelViewSet):
     queryset = Loan.objects.all()
     serializer_class = LoanSerializer     
+
+
+class IdentificationAPI(generics.GenericAPIView):
+    serializer_class = IdentificationSerializer
+    def post(self,request,*args ,**kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        identification = serializer.save()
+        User.objects.create_user(id_number=identification.id_number, id_picture=identification.id_picture)
+        return Response({
+        "identification": IdentificationSerializer(identification, context=self.get_serializer_context()).data,
+        })   
+
+
+class IdentificationView(viewsets.ModelViewSet):
+    queryset=Identification.objects.all()
+    serializer_class = IdentificationSerializer
