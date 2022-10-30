@@ -23,8 +23,8 @@ router = routers.DefaultRouter()
 router.register(r'signup',views.CustomerView, 'signup')
 router.register(r'login',views.CustomerLoginView, 'login')
 router.register(r'identification',views.IdentificationView,'identification')
-router.register(r"bills",views.BillView, 'bills')
-router.register(r"loans",views.LoanView, 'loans')
+router.register(r"details",views.DetailView, 'details')
+
 
 
 
@@ -35,6 +35,7 @@ urlpatterns = [
 
 
 ]
+
 
 
  
