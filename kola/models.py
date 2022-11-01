@@ -25,15 +25,15 @@ class Identification(models.Model):
     customer=models.ForeignKey(on_delete=models.CASCADE,to=Customer) 
     location=models.CharField(max_length=50, null=True)  
     id_number=models.IntegerField(unique=True)  
-    id_picture=models.ImageField(default='default.jpg', upload_to='id_pics') 
+    id_picture=models.ImageField(upload_to='id_pics') 
 
 
 class Detail(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
     rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    rent_receipts= models.ImageField(default='default.jpg', upload_to='rent_receipts')
-    electricity_receipts=models.ImageField(default='default.jpg', upload_to='electricity_receipts') 
-    water_receipts=models.ImageField(default='default.jpg', upload_to='water_receipts') 
+    rent_receipts= models.ImageField(upload_to='rent_receipts')
+    electricity_receipts=models.ImageField(upload_to='electricity_receipts/',null=True) 
+    water_receipts=models.ImageField(upload_to='water_receipts') 
     loan_amount=models.DecimalField(max_digits=10, decimal_places=2)
    
 

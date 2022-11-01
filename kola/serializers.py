@@ -1,3 +1,4 @@
+
 from rest_framework import serializers 
 from .models import Customer, Detail, Identification
 from django.contrib.auth.models import User
@@ -36,28 +37,30 @@ class CustomerLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ("email", "password") 
-    # def get(self, request, format=None):
-    #     username=request.data['email']
-    #     password=request.data['password']
-    #     queryset = Customer.objects.all()
-    #     if username and password:
-    #         queryset = queryset.filter(email=username)
-    #         if queryset.exists():
-    #             user = Customer.objects.get(email=username)
-    #             if user.check_password(password):
-    #                 return Response(CustomerSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
+    def get(self, request, format=None):
+        username=request.data['email']
+        password=request.data['password']
+        queryset = Customer.objects.all()
+        if username and password:
+            queryset = queryset.filter(email=username)
+            if queryset.exists():
+                user = Customer.objects.get(email=username)
+                if user.check_password(password):
+                    return Response(CustomerSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
 
 
 class DetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Detail
-        fields = ("rent_amount", "rent_receipts", "electricity_receipts", "water_receipts", "loan_amount")  
+        fields = ("customer","rent_amount", "rent_receipts", "electricity_receipts", "water_receipts", "loan_amount")  
        
                    
 
 class IdentificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Identification
-        fields =  ("location","id_number", "id_picture")
+        fields =  ("customer","location","id_number", "id_picture")
+
+
 
        

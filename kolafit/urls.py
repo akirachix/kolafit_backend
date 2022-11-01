@@ -18,6 +18,8 @@ from django.urls import path, include
 from kola import views
 from rest_framework import routers
 from knox import views as knox_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 router.register(r'signup',views.CustomerView, 'signup')
@@ -35,6 +37,18 @@ urlpatterns = [
 
 
 ]
+# _patterns = [
+#     path('admin/', admin.site.urls),
+#     # path('api/', include(router.urls)),
+#     path('api/', include('kola.urls')),
+   
+# ]
+
+# # Prepend BASE_PATH
+# urlpatterns = [path("{}".format(settings.BASE_PATH), include(_patterns))] + static(
+#     settings.STATIC_URL,
+#     document_root=settings.STATIC_ROOT,
+# )
 
 
 
