@@ -40,6 +40,13 @@ class CustomerLoginView(viewsets.ModelViewSet):
 class DetailView(viewsets.ModelViewSet):
     queryset = Detail.objects.all() 
     serializer_class =   DetailSerializer   
+    def customer_detail(request):
+        if request.method == "POST":
+            serializer = DetailSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=201)   
+
 
 
 class IdentificationView(viewsets.ModelViewSet):

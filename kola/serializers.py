@@ -53,6 +53,15 @@ class DetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Detail
         fields = ("customer","rent_amount", "rent_receipts", "electricity_receipts", "water_receipts", "loan_amount")  
+        # extra_kwargs = {"password": {"write_only": True}}
+              
+    def create(self, validated_data):
+        details = Detail.objects.create(validated_data["rent_amount"],
+        validated_data["rent_receipts"],
+        validated_data["electricity_receipts"],
+        validated_data["water_receipts"],
+        validated_data["loan_amount"])
+        details.save()
        
                    
 
@@ -60,7 +69,11 @@ class IdentificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Identification
         fields =  ("customer","location","id_number", "id_picture")
-
+    def create(self, validated_data):
+        details = Detail.objects.create(validated_data["location"],
+        validated_data["id_number"],
+        validated_data["id_picture"])
+        details.save()
 
 
        
