@@ -1,3 +1,5 @@
+from enum import unique
+from unittest.util import _MAX_LENGTH
 from django.db import models
 
 # Create your models here.
@@ -11,8 +13,9 @@ class Customer(models.Model):
         ('O','Other'),
     )
     gender=models.CharField(max_length=10,choices=GENDER_CHOICES,null=True)
-    email = models.EmailField(null = True)
+    email = models.EmailField(unique= True,null = True)
     password=models.CharField(max_length = 15,null=True)
+    confirm_password=models.CharField(max_length = 15,null=True)
     
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
@@ -20,25 +23,17 @@ class Customer(models.Model):
 
 class Identification(models.Model):
     customer=models.ForeignKey(on_delete=models.CASCADE,to=Customer) 
+    location=models.CharField(max_length=50, null=True)  
     id_number=models.IntegerField(unique=True)  
-    id_picture=models.ImageField(default='default.jpg', upload_to='id_pics') 
+    id_picture=models.ImageField(upload_to='id_pics') 
 
 
-class Bill(models.Model):
+class Detail(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
     rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    BILLS_CHOICES=(
-        ('E','Electricity'),
-        ('W','Water'),
-    )
-    bills = models.CharField(max_length=30,choices=BILLS_CHOICES,null=True)
-    electricity_picture=models.ImageField(default='default.jpg', upload_to='electricity_pics') 
-    water_picture=models.ImageField(default='default.jpg', upload_to='water_pics') 
+    rent_receipts= models.ImageField(upload_to='rent_receipts')
+    electricity_receipts=models.ImageField(upload_to='electricity_receipts/',null=True) 
+    water_receipts=models.ImageField(upload_to='water_receipts') 
+    loan_amount=models.DecimalField(max_digits=10, decimal_places=2)
    
-    bills_amount=models.DecimalField(max_digits=10, decimal_places=2)
-
-    
-class Loan(models.Model):
-    customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
-    amount=models.DecimalField(max_digits=10,decimal_places=2)    
 
