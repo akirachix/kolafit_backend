@@ -42,9 +42,9 @@ class CustomerLoginSerializer(serializers.ModelSerializer):
         password=request.data['password']
         queryset = Customer.objects.all()
         if username and password:
-            queryset = queryset.filter(email=username)
+            queryset = queryset.filter(username=username)
             if queryset.exists():
-                user = Customer.objects.get(email=username)
+                user = Customer.objects.get(username=username)
                 if user.check_password(password):
                     return Response(CustomerSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
 
@@ -55,13 +55,6 @@ class DetailSerializer(serializers.ModelSerializer):
         fields = ("customer","rent_amount", "rent_receipts", "electricity_receipts", "water_receipts", "loan_amount")  
         # extra_kwargs = {"password": {"write_only": True}}
               
-    def create(self, validated_data):
-        details = Detail.objects.create(validated_data["rent_amount"],
-        validated_data["rent_receipts"],
-        validated_data["electricity_receipts"],
-        validated_data["water_receipts"],
-        validated_data["loan_amount"])
-        details.save()
        
                    
 
@@ -69,11 +62,7 @@ class IdentificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Identification
         fields =  ("customer","location","id_number", "id_picture")
-    def create(self, validated_data):
-        details = Detail.objects.create(validated_data["location"],
-        validated_data["id_number"],
-        validated_data["id_picture"])
-        details.save()
+    
 
 
        

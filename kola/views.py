@@ -44,6 +44,13 @@ class DetailView(viewsets.ModelViewSet):
         if request.method == "POST":
             serializer = DetailSerializer(data=request.data)
             if serializer.is_valid():
+                Detail.objects.create(
+                rent_amount=request.POST.get('rent_amount'),
+                rent_receipts=request.POST.get('rent_receipts'),
+                electricity_receipts=request.POST.get('electricity_receipts'),
+                water_receipts=request.POST.get('water_receipts'),
+                loan_amount=request.POST.get('loan_amount'),
+                )
                 serializer.save()
                 return Response(serializer.data, status=201)   
 
@@ -56,6 +63,11 @@ class IdentificationView(viewsets.ModelViewSet):
         if request.method == "POST":
             serializer = IdentificationSerializer(data=request.data)
             if serializer.is_valid():
+                Identification.objects.create(
+                location=request.POST.get('location'),
+                id_number=request.POST.get('id_number'),
+                id_picture=request.POST.get('id_picture'),
+                )
                 serializer.save()
                 return Response(serializer.data, status=201) 
 
