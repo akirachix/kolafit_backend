@@ -47,9 +47,9 @@ class DetailView(viewsets.ModelViewSet):
             if serializer.is_valid():
                 Detail.objects.create(
                 rent_amount=request.POST.get('rent_amount'),
-                rent_receipts=request.POST.get('media/rent_receipts'),
-                electricity_receipts=request.POST.get('media/electricity_receipts'),
-                water_receipts=request.POST.get('media/water_receipts'),
+                rent_receipts=request.POST.get('media/rent_receipts/'),
+                electricity_receipts=request.POST.get('media/electricity_receipts/'),
+                water_receipts=request.POST.get('media/water_receipts/'),
                 loan_amount=request.POST.get('loan_amount'),
                 )
                 serializer.save()
@@ -61,6 +61,7 @@ class IdentificationView(viewsets.ModelViewSet):
     queryset=Identification.objects.all()
     serializer_class = IdentificationSerializer
     parser_classes = (MultiPartParser, FormParser)
+    
     def customer_identification(request):
         if request.method == "POST":
             serializer = IdentificationSerializer(data=request.data)

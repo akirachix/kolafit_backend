@@ -18,6 +18,7 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
         model = Customer
         fields = ('first_name',"last_name", "gender", "email","password", "confirm_password")
         extra_kwargs = {"password": {"write_only": True}}
+        
     def validate(self, attrs):
         if attrs["password"] != attrs["confirm_password"]:
             raise serializers.ValidationError(
