@@ -50,6 +50,9 @@ class CustomerLoginSerializer(serializers.ModelSerializer):
 
 
 class DetailSerializer(serializers.ModelSerializer):
+    rent_receipts = serializers.ImageField(required=False)
+    electricity_receipts = serializers.ImageField(required=False)
+    water_receipts = serializers.ImageField(required=False)
     class Meta:
         model = Detail
         fields = ("customer","rent_amount", "rent_receipts", "electricity_receipts", "water_receipts", "loan_amount")  
