@@ -21,7 +21,7 @@ class Customer(models.Model):
 
 # lets us explicitly set upload path and filename
 def upload_to(filename):
-    return 'images/{filename}'.format(filename=filename)
+    return 'images/'.format(filename=filename)
 
 class Identification(models.Model):
     customer=models.ForeignKey(on_delete=models.CASCADE,to=Customer) 

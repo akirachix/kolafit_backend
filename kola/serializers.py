@@ -25,7 +25,7 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
         return attrs        
         
     def create(self, validated_data):
-        customer = Customer.objects.create(validated_data["first_name"],
+        customer = User.objects.create(validated_data["first_name"],
         validated_data["last_name"],
         validated_data["email"])
         customer.set_password(validated_data['password'])
@@ -40,11 +40,11 @@ class CustomerLoginSerializer(serializers.ModelSerializer):
     def get(self, request, format=None):
         username=request.data['email']
         password=request.data['password']
-        queryset = Customer.objects.all()
+        queryset = User.objects.all()
         if username and password:
             queryset = queryset.filter(username=username)
             if queryset.exists():
-                user = Customer.objects.get(username=username)
+                user = User.objects.get(username=username)
                 if user.check_password(password):
                     return Response(CustomerSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
 
