@@ -18,7 +18,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 from rest_framework import status
-
+from rest_framework.parsers import MultiPartParser, FormParser
 from kola import serializers
 
 class CustomerView(viewsets.ModelViewSet):
@@ -39,7 +39,8 @@ class CustomerLoginView(viewsets.ModelViewSet):
      
 class DetailView(viewsets.ModelViewSet):
     queryset = Detail.objects.all() 
-    serializer_class =   DetailSerializer   
+    serializer_class =   DetailSerializer  
+    parser_classes = (MultiPartParser, FormParser) 
     def customer_detail(request):
         if request.method == "POST":
             serializer = DetailSerializer(data=request.data)
@@ -59,6 +60,7 @@ class DetailView(viewsets.ModelViewSet):
 class IdentificationView(viewsets.ModelViewSet):
     queryset=Identification.objects.all()
     serializer_class = IdentificationSerializer
+    parser_classes = (MultiPartParser, FormParser)
     def customer_identification(request):
         if request.method == "POST":
             serializer = IdentificationSerializer(data=request.data)

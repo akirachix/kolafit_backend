@@ -1,5 +1,4 @@
 from enum import unique
-from unittest.util import _MAX_LENGTH
 from django.db import models
 
 # Create your models here.
@@ -20,20 +19,23 @@ class Customer(models.Model):
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
+# lets us explicitly set upload path and filename
+def upload_to(instance, filename):
+    return 'images/{filename}'.format(filename=filename)
 
 class Identification(models.Model):
     customer=models.ForeignKey(on_delete=models.CASCADE,to=Customer) 
     location=models.CharField(max_length=50, null=True)  
     id_number=models.IntegerField(unique=True)  
-    id_picture=models.ImageField(upload_to='id_pics') 
+    id_picture=models.ImageField(upload_to='id_pics', blank=True, null=True) 
 
 
 class Detail(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
     rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    rent_receipts= models.ImageField(upload_to='rent_receipts')
-    electricity_receipts=models.ImageField(upload_to='electricity_receipts/',null=True) 
-    water_receipts=models.ImageField(upload_to='water_receipts') 
+    rent_receipts= models.ImageField(upload_to='rent_receipts', blank=True, null=True)
+    electricity_receipts=models.ImageField(upload_to='electricity_receipts/',blank=True, null=True) 
+    water_receipts=models.ImageField(upload_to='water_receipts', blank=True, null=True) 
     loan_amount=models.DecimalField(max_digits=10, decimal_places=2)
    
 

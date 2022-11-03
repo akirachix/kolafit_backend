@@ -59,6 +59,7 @@ class DetailSerializer(serializers.ModelSerializer):
                    
 
 class IdentificationSerializer(serializers.ModelSerializer):
+    id_picture = serializers.ImageField(required=False)
     class Meta:
         model = Identification
         fields =  ("customer","location","id_number", "id_picture")
