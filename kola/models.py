@@ -20,22 +20,21 @@ class Customer(models.Model):
         return '{} {}'.format(self.first_name, self.last_name)
 
 # lets us explicitly set upload path and filename
-def upload_to(instance, filename):
+def upload_to(filename):
     return 'images/{filename}'.format(filename=filename)
 
 class Identification(models.Model):
     customer=models.ForeignKey(on_delete=models.CASCADE,to=Customer) 
     location=models.CharField(max_length=50, null=True)  
     id_number=models.IntegerField(unique=True)  
-    id_picture=models.ImageField(upload_to=upload_to, blank=True, null=True) 
-
-
+    id_picture=models.ImageField(upload_to=upload_to("id_pics"), blank=True, null=True) 
+      
 class Detail(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
     rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    rent_receipts= models.ImageField(upload_to=upload_to, blank=True, null=True)
-    electricity_receipts=models.ImageField(upload_to=upload_to,blank=True, null=True) 
-    water_receipts=models.ImageField(upload_to=upload_to, blank=True, null=True) 
+    rent_receipts= models.ImageField(upload_to=upload_to("rent_receipts"), blank=True, null=True)
+    electricity_receipts=models.ImageField(upload_to=upload_to("electricity_receipts"),blank=True, null=True) 
+    water_receipts=models.ImageField(upload_to=upload_to("water_receipts"), blank=True, null=True) 
     loan_amount=models.DecimalField(max_digits=10, decimal_places=2)
    
 

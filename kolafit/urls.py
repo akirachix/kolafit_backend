@@ -34,7 +34,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('', include('kola.urls')),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+ ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 
 # _patterns = [

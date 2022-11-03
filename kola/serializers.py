@@ -56,7 +56,7 @@ class DetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Detail
         fields = ("customer","rent_amount", "rent_receipts", "electricity_receipts", "water_receipts", "loan_amount")  
-        # extra_kwargs = {"password": {"write_only": True}}
+        
               
        
                    
