@@ -33,7 +33,8 @@ router.register(r"details",views.DetailView, 'details')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('', include('kola.urls')),
+    path('eligibility/', include('kola.urls')),
+    # path('login/', views.CustomAuthToken.as_view())
  ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

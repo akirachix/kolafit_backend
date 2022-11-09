@@ -1,4 +1,5 @@
 
+from urllib import request
 from rest_framework import serializers 
 from .models import Customer, Detail, Identification
 from django.contrib.auth.models import User
@@ -26,10 +27,10 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
         return attrs        
         
     def create(self, validated_data):
-        customer = User.objects.create(validated_data["first_name"],
+        customer = Customer.objects.create(validated_data["first_name"],
         validated_data["last_name"],
         validated_data["email"])
-        customer.set_password(validated_data['password'])
+        customer.set_password(validated_data["password"])
         customer.save()
         return customer
 
@@ -48,6 +49,7 @@ class CustomerLoginSerializer(serializers.ModelSerializer):
                 user = User.objects.get(username=username)
                 if user.check_password(password):
                     return Response(CustomerSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
+                    
 
 
 class DetailSerializer(serializers.ModelSerializer):

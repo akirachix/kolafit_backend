@@ -2,6 +2,7 @@ from enum import unique
 from django.db import models
 
 # Create your models here.
+from django.contrib.auth.models import AbstractBaseUser
 
 class Customer(models.Model):
     first_name=models.CharField(max_length=16,null=True)

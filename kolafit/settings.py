@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'django_extensions',
+    # 'rest_framework.authtoken'
 ]
 
 MIDDLEWARE = [
@@ -141,9 +142,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -158,6 +163,7 @@ REST_FRAMEWORK = {
    ],
    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated',
    ],
    "DEFAULT_RENDERER_CLASSES": [
         "rest_framework.renderers.JSONRenderer",
