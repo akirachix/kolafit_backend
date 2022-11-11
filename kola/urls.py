@@ -6,7 +6,7 @@ from . import views
 
 
 urlpatterns = [
-    path("request_loan/", views.Loan_Eligibility.as_view(), name="loan_eligibility"),
+    # path("request_loan/", views.Loan_Eligibility.as_view(), name="loan_eligibility"),
     
 ]
 

@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from kola.views import login
 from kola import views
 from rest_framework import routers
 from knox import views as knox_views
@@ -33,6 +34,7 @@ router.register(r"details",views.DetailView, 'details')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    # path('api/login', login),
     path('eligibility/', include('kola.urls')),
     # path('login/', views.CustomAuthToken.as_view())
  ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

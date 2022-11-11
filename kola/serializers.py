@@ -1,12 +1,14 @@
 
 from urllib import request
-from rest_framework import serializers 
-from .models import Customer, Detail, Identification
+
 from django.contrib.auth.models import User
-from rest_framework.response import Response
-from rest_framework import status
 from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers, status
+from rest_framework.response import Response
 from rest_framework.validators import UniqueValidator
+
+from .models import Customer, Detail, Identification
+
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,48 +29,38 @@ class CustomerRegisterSerializer(serializers.ModelSerializer):
         return attrs        
         
     def create(self, validated_data):
-        customer = Customer.objects.create(validated_data["first_name"],
+        user = Customer.objects.create(validated_data["first_name"],
         validated_data["last_name"],
         validated_data["email"])
-        customer.set_password(validated_data["password"])
-        customer.save()
-        return customer
+        user.set_password(validated_data["password"])
+        user.save()
+        return user
 
 
 class CustomerLoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ("email", "password") 
-    def get(self, request, format=None):
-        username=request.data['email']
-        password=request.data['password']
-        queryset = User.objects.all()
-        if username and password:
-            queryset = queryset.filter(username=username)
-            if queryset.exists():
-                user = User.objects.get(username=username)
-                if user.check_password(password):
-                    return Response(CustomerSerializer(queryset, many=True).data, status=status.HTTP_200_OK)
+        fields = ("email", "password")
                     
 
 
 class DetailSerializer(serializers.ModelSerializer):
-    rent_receipts = serializers.ImageField(required=False)
-    electricity_receipts = serializers.ImageField(required=False)
-    water_receipts = serializers.ImageField(required=False)
+    # rent_receipts = serializers.ImageField(required=False)
+    # electricity_receipts = serializers.ImageField(required=False)
+    # water_receipts = serializers.ImageField(required=False)
     class Meta:
         model = Detail
-        fields = ("customer","rent_amount", "rent_receipts", "electricity_receipts", "water_receipts", "loan_amount")  
+        fields = ("customer","rent_amount","electricity_bill", "water_bill", "loan_amount")  
         
               
        
                    
 
 class IdentificationSerializer(serializers.ModelSerializer):
-    id_picture = serializers.ImageField(required=False)
+    # id_picture = serializers.ImageField(required=False)
     class Meta:
         model = Identification
-        fields =  ("customer","location","id_number", "id_picture")
+        fields =  ("customer","location","id_number")
     
 
 

@@ -1,5 +1,7 @@
 from enum import unique
+
 from django.db import models
+from rest_framework.response import Response
 
 # Create your models here.
 from django.contrib.auth.models import AbstractBaseUser
@@ -25,14 +27,17 @@ class Identification(models.Model):
     customer=models.ForeignKey(on_delete=models.CASCADE,to=Customer) 
     location=models.CharField(max_length=50, null=True)  
     id_number=models.IntegerField(unique=True)  
-    id_picture=models.ImageField(upload_to='media/id_pic/', blank=True, null=True) 
+    # id_picture=models.ImageField(upload_to='media/id_pic/', blank=True, null=True) 
       
 class Detail(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
     rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    rent_receipts= models.ImageField(upload_to="media/rent_receipts/", blank=True, null=True)
-    electricity_receipts=models.ImageField(upload_to="media/electricity_receipts/",blank=True, null=True) 
-    water_receipts=models.ImageField(upload_to="media/water_receipts/", blank=True, null=True) 
-    loan_amount=models.DecimalField(max_digits=10, decimal_places=2)
+    # rent_receipts= models.ImageField(upload_to="media/rent_receipts/", blank=True, null=True)
+    electricity_bill=models.DecimalField(max_digits=10, decimal_places=2, null=True) 
+    water_bill=models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    loan_amount=models.DecimalField(max_digits=10, decimal_places=2, null=True)
+
+
+
    
 
