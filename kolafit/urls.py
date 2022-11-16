@@ -26,7 +26,7 @@ router = routers.DefaultRouter()
 router.register(r'signup',views.CustomerView, 'signup')
 router.register(r'login',views.CustomerLoginView, 'login')
 router.register(r'identification',views.IdentificationView,'identification')
-router.register(r"details",views.DetailView, 'details')
+router.register(r"details",views.DetailView, basename='send-data')
 
 
 
@@ -35,7 +35,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     # path('api/login', login),
-    path('eligibility/', include('kola.urls')),
+    # path('eligibility/', include('kola.urls')),
     # path('login/', views.CustomAuthToken.as_view())
  ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

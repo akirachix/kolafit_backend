@@ -4,7 +4,7 @@ from . import models
 # Register your models here.
 from .models import Customer, Detail,Identification
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ("first_name" ,"last_name","gender", "email", "password")
+    list_display = ("first_name" ,"last_name","gender", "email", "password", "confirm_password")
 admin.site.register(Customer,CustomerAdmin)
 
 
