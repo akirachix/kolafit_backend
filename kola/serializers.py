@@ -43,7 +43,11 @@ class DetailSerializer(serializers.ModelSerializer):
 class IdentificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Identification
-        fields =  '__all__'
+        fields =  '__all__' 
+
+ 
+
+
     
 
 
