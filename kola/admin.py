@@ -14,7 +14,7 @@ admin.site.register(Detail , DetailAdmin)
 
 
 class IdentificationAdmin(admin.ModelAdmin):
-    list_display = ("customer" ,"location", "id_number")
+    list_display = ("customer" ,"location", "id_number", "id_picture")
 admin.site.register(Identification,IdentificationAdmin)
 
 

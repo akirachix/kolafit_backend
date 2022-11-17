@@ -27,7 +27,7 @@ class Identification(models.Model):
     customer=models.ForeignKey(on_delete=models.CASCADE,to=Customer) 
     location=models.CharField(max_length=50, null=True)  
     id_number=models.IntegerField(unique=True)  
-    # id_picture=models.ImageField(upload_to='id_pic/', blank=True, null=True) 
+    id_picture=models.ImageField(upload_to='id_pic/', blank=True, null=True) 
     # file_url=models.CharField()
       
 class Detail(models.Model):
