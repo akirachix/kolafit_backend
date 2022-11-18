@@ -28,15 +28,17 @@ class Identification(models.Model):
     location=models.CharField(max_length=50, null=True)  
     id_number=models.IntegerField(unique=True)  
     id_picture=models.ImageField(upload_to='id_pic/', blank=True, null=True) 
-    # file_url=models.CharField()
+    
       
 class Detail(models.Model):
     customer = models.ForeignKey(on_delete=models.CASCADE,to=Customer)
     income=models.DecimalField(max_digits=10, decimal_places=2,null=True)
     rent_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    # rent_receipts= models.ImageField(upload_to="media/rent_receipts/", blank=True, null=True)
+    rent_receipts= models.ImageField(upload_to="rent_receipts/", blank=True, null=True)
     electricity_bill=models.DecimalField(max_digits=10, decimal_places=2, null=True) 
+    electricity_receipts= models.ImageField(upload_to="electricity_receipts/", blank=True, null=True)
     water_bill=models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    water_receipts= models.ImageField(upload_to="water_receipts/", blank=True, null=True)
     loan_amount=models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
 

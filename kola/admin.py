@@ -9,7 +9,7 @@ admin.site.register(Customer,CustomerAdmin)
 
 
 class DetailAdmin(admin.ModelAdmin):
-    list_display = ("customer", "rent_amount", "electricity_bill", "water_bill", "loan_amount")
+    list_display = ("customer","income","rent_amount","rent_receipts", "electricity_bill","electricity_receipts", "water_bill","water_receipts", "loan_amount")
 admin.site.register(Detail , DetailAdmin)    
 
 
