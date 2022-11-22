@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'knox',
     'django_extensions',
-    # 'rest_framework.authtoken'
+    'rest_framework.authtoken',
+
 ]
 
 MIDDLEWARE = [
@@ -106,7 +107,7 @@ DATABASES = {
     }
 }
 
-
+APPEND_SLASH = False
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -159,6 +160,7 @@ REST_FRAMEWORK = {
    'DEFAULT_AUTHENTICATION_CLASSES': [
        'rest_framework.authentication.TokenAuthentication',
        'knox.auth.TokenAuthentication',
+    #    'rest_framework.authentication.BasicAuthentication',
        
    ],
    'DEFAULT_PERMISSION_CLASSES': [
@@ -172,7 +174,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.MultiPartParser',
-        'rest_framework.parsers.FormParser'
+        'rest_framework.parsers.FormParser',
     ],
 }
 django_heroku.settings(locals())

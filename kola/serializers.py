@@ -38,8 +38,6 @@ class DetailSerializer(serializers.ModelSerializer):
         
               
        
-                   
-
 class IdentificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Identification
